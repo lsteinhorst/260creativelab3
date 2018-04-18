@@ -3,7 +3,6 @@
 <label for="show-menu" class="show-menu">Show Menu</label>
 <input type="checkbox" id="show-menu" role="button">
     <ul id="menu">
-  <li><router-link to="/">Home</router-link></li>
   <li><router-link to="/profile">Blue Spruce</router-link></li>
    <li><router-link to="/columbine">Columbine</router-link></li>
     <li><router-link to="/lily">Lily</router-link></li>

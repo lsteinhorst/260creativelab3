@@ -99,5 +99,39 @@ app.post('/api/login', (req, res) => {
   });  
 
 
+  app.get('/api/comments/search', (req, res) => {
+    if (!req.query.keywords)
+      return res.status(400).send();
+    let offset = 0;
+    if (req.query.offset)
+      offset = parseInt(req.query.offset);
+    let limit = 50;
+    if (req.query.limit)
+      limit = parseInt(req.query.limit);
+    knex('users').join('comments','users.id','comments.user_id')
+      .whereRaw("MATCH (comment) AGAINST('" + req.query.keywords + "')")
+      .orderBy('created','desc')
+      .limit(limit)
+      .offset(offset)
+      .select('comment','username','name','created','users.id as userID').then(comments => {
+        res.status(200).json({comments:comments});
+      }).catch(error => {
+        res.status(500).json({ error });
+      });
+  });
+
+  app.get('/api/users/:id', (req, res) => {
+    let id = parseInt(req.params.id);
+    // get user record
+    knex('users').where('id',id).first().select('username','name','id').then(user => {
+      res.status(200).json({user:user});
+     }).catch(error => {
+       res.status(500).json({ error });
+     });
+   });
+
+
+
+
 
 app.listen(3000, () => console.log('Server listening on port 3000!'));

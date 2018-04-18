@@ -1,10 +1,10 @@
 <template>
   <div class="column">
     <img src="/static/images/flower.jpg"/>
-    <h1>Follow the Red Bird. Or anyone else.</h1>
-    <h2>Make friends in high places.</h2>
+    <h1>Plants</h1>
+    <h2>Learn about plants!</h2>
     <form v-on:submit.prevent="register">
-      <p>1. Choose a user name (this is how you will be known by others on Red Bird).</p>
+      <p>1. Choose a user name.</p>
       <input class="narrow" v-model="username" placeholder="User Name">
       <p>2. Create an account.</p>
       <input class="wide" v-model="name" placeholder="First and Last Name"><br/>
@@ -18,30 +18,52 @@
 
 <script>
  export default {
-     name: 'HomePage',
-     data () {
-	 return {
-	     imagePath: '/static/images/flower.jpg'
-	 }
+   name: 'HomePage',
+   data () {
+     return {
+       username: '',
+       email: '',
+       password: '',
+       name: '',
      }
+   },
+   computed: {
+     registerError: function() {
+       return this.$store.getters.registerError;
+     },
+   },
+   methods: {
+     register: function() {
+       this.$store.dispatch('register',{
+	 username: this.username,
+         email: this.email,
+         password: this.password,
+	 name: this.name,
+       });
+     }
+   }
  }
 </script>
 
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
- body {
-     padding: 0px;
-     margin: 0px;
- }
- .hero {
-     text-align: center;
- }
- h1 {
-     font-size: 2.5em;
-     letter-spacing: .2rem;
-     color: #999;
-     margin-bottom: 2px;
- }
  img {
-     width: 100%;
+     width: 100px;
+ }
+
+ h1 {
+     margin-bottom: 0px;
+ }
+ h2 {
+     margin-top: 0px;
+     font-size: 1.2em;
+     font-weight: normal;
+     margin-bottom: 50px;
+ }
+ .narrow {
+     width: 170px;
+ }
+ .wide {
+     width: 370px;
  }
 </style>
